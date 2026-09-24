@@ -1,0 +1,71 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "agent-eval"
+version = "0.1.0"
+description = "Budget-Constrained Adaptive Security Evaluation of AI Agents"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.5.0",
+    "sqlmodel>=0.0.10",
+    "pandas>=2.2.0",
+    "numpy>=1.26.0",
+    "fastapi>=0.109.0",
+    "uvicorn[standard]>=0.27.0",
+    "pyyaml>=6.0.1",
+]
+extras = {
+    "dev": [
+        "pytest>=8.0.0",
+        "ruff>=0.3.0",
+        "mypy>=1.8.0",
+    ],
+    "test": [
+        "pytest>=8.0.0",
+        "coverage[toml]>=7.0.0",
+    ],
+}
+project-type = "normal"
+
+[project.scripts]
+agent-eval = "agent_eval.cli:main"
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+selectivity = "E,F,W,B"
+extend-selectivity = "SIMPT,TID"
+force-exclude = ["T251", "T252"]
+preview = "ruff:extra-lint"
+ruff = {
+    "flake8": {
+        "select": "E,F,W,B"
+    },
+    "pyupgrade": {
+        "target-python-version": "3.11"
+    },
+}
+
+[tool.mypy]
+python-version = "3.11"
+disallow-untyped-defs = false
+disallow-untyped-calls = False
+ignore-missing-imports = true
+show-error-codes = true
+strict = false
+
+[tool.pytest.polver]
+enabled = false
+
+[tool.metadata]
+description-file = "README.md"
+requires-python = ">=3.11"
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]

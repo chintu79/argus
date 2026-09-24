@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+envs/
+
+# UV
+.uv.lock
+uv.lock
+
+# Environment
+.env
+.env.local
+*.env*
+
+# Artifacts
+artifacts/
+data/raw/
+data/processed/
+
+# Coverage
+.coverage
+htmlcov/
+.coverage.*
+
+# Ruff cache
+.ruff_cache/
+.ruff_history/
+
+# Mypy
+.mypy_cache/
+dmypy.json
+python-debug/
+
+# PyProject
+*.egg-info/
+.dist/
+
+# Docker
+.dockerinit
+*.dockercontext
+
+# IDE
+.idea/
+*.swp
+*.s3os
+*~ 
+
+# Project-specific
+instance/
