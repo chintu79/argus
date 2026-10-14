@@ -562,8 +562,7 @@ The Interesting-State Detector shall evaluate states using configured criteria.
 Conceptually:
 
 ```python
-def is_interesting(state, context):
-    ...
+def is_interesting(state, context): ...
 ```
 
 Output:
@@ -2382,24 +2381,17 @@ Conceptual interface:
 
 ```python
 class SnapshotManager:
+    def is_snapshotable(self, state): ...
 
-    def is_snapshotable(self, state):
-        ...
+    def create_snapshot(self, execution, state): ...
 
-    def create_snapshot(self, execution, state):
-        ...
+    def validate_snapshot(self, snapshot): ...
 
-    def validate_snapshot(self, snapshot):
-        ...
+    def restore_snapshot(self, snapshot): ...
 
-    def restore_snapshot(self, snapshot):
-        ...
+    def verify_restored_state(self, snapshot, restored_state): ...
 
-    def verify_restored_state(self, snapshot, restored_state):
-        ...
-
-    def get_snapshot(self, snapshot_id):
-        ...
+    def get_snapshot(self, snapshot_id): ...
 ```
 
 ---
@@ -2408,26 +2400,15 @@ class SnapshotManager:
 
 ```python
 class BranchManager:
+    def create_branch(self, snapshot, perturbation, budget): ...
 
-    def create_branch(
-        self,
-        snapshot,
-        perturbation,
-        budget
-    ):
-        ...
+    def validate_branch(self, branch): ...
 
-    def validate_branch(self, branch):
-        ...
+    def execute_branch(self, branch): ...
 
-    def execute_branch(self, branch):
-        ...
+    def terminate_branch(self, branch): ...
 
-    def terminate_branch(self, branch):
-        ...
-
-    def get_lineage(self, branch_id):
-        ...
+    def get_lineage(self, branch_id): ...
 ```
 
 ---
@@ -2436,15 +2417,11 @@ class BranchManager:
 
 ```python
 class InterestingStateDetector:
+    def evaluate(self, state, context): ...
 
-    def evaluate(self, state, context):
-        ...
+    def score(self, state, context): ...
 
-    def score(self, state, context):
-        ...
-
-    def explain(self, state, context):
-        ...
+    def explain(self, state, context): ...
 ```
 
 The `explain()` output should describe observable state features and triggered rules, not hidden model reasoning.
@@ -2455,18 +2432,13 @@ The `explain()` output should describe observable state features and triggered r
 
 ```python
 class SnapshotSerializer:
+    def serialize(self, state): ...
 
-    def serialize(self, state):
-        ...
+    def deserialize(self, payload): ...
 
-    def deserialize(self, payload):
-        ...
+    def canonicalize(self, state): ...
 
-    def canonicalize(self, state):
-        ...
-
-    def hash(self, state):
-        ...
+    def hash(self, state): ...
 ```
 
 ---
@@ -2475,18 +2447,13 @@ class SnapshotSerializer:
 
 ```python
 class PerturbationEngine:
+    def validate(self, perturbation, state): ...
 
-    def validate(self, perturbation, state):
-        ...
+    def apply(self, perturbation, state): ...
 
-    def apply(self, perturbation, state):
-        ...
+    def describe(self, perturbation): ...
 
-    def describe(self, perturbation):
-        ...
-
-    def reverse(self, perturbation, state):
-        ...
+    def reverse(self, perturbation, state): ...
 ```
 
 A reverse operation is optional if the branch uses isolated copies.
@@ -2499,24 +2466,17 @@ Conceptual interface:
 
 ```python
 class BranchCostTracker:
+    def record_snapshot(self, cost): ...
 
-    def record_snapshot(self, cost):
-        ...
+    def record_restore(self, cost): ...
 
-    def record_restore(self, cost):
-        ...
+    def record_perturbation(self, cost): ...
 
-    def record_perturbation(self, cost):
-        ...
+    def record_execution(self, cost): ...
 
-    def record_execution(self, cost):
-        ...
+    def record_analysis(self, cost): ...
 
-    def record_analysis(self, cost):
-        ...
-
-    def total(self):
-        ...
+    def total(self): ...
 ```
 
 ---
@@ -3085,60 +3045,29 @@ def create_branch(snapshot, perturbation, budget):
 
     validate_snapshot(snapshot)
 
-    validate_perturbation(
-        perturbation,
-        snapshot
-    )
+    validate_perturbation(perturbation, snapshot)
 
-    estimated_cost = estimate_branch_cost(
-        snapshot,
-        perturbation
-    )
+    estimated_cost = estimate_branch_cost(snapshot, perturbation)
 
-    reserve_budget(
-        estimated_cost
-    )
+    reserve_budget(estimated_cost)
 
-    branch = create_branch_record(
-        snapshot=snapshot,
-        perturbation=perturbation
-    )
+    branch = create_branch_record(snapshot=snapshot, perturbation=perturbation)
 
-    environment = restore_snapshot(
-        snapshot
-    )
+    environment = restore_snapshot(snapshot)
 
-    validate_restored_environment(
-        environment,
-        snapshot
-    )
+    validate_restored_environment(environment, snapshot)
 
-    apply_perturbation(
-        environment,
-        perturbation
-    )
+    apply_perturbation(environment, perturbation)
 
-    validate_branch_state(
-        environment
-    )
+    validate_branch_state(environment)
 
-    result = execute_branch(
-        environment
-    )
+    result = execute_branch(environment)
 
-    evaluate_invariants(
-        result
-    )
+    evaluate_invariants(result)
 
-    record_cost(
-        branch,
-        result
-    )
+    record_cost(branch, result)
 
-    finalize_branch(
-        branch,
-        result
-    )
+    finalize_branch(branch, result)
 
     return result
 ```
@@ -3158,26 +3087,15 @@ def create_snapshot(execution, state):
 
     frozen_state = freeze_state(state)
 
-    canonical_state = canonicalize(
-        frozen_state
-    )
+    canonical_state = canonicalize(frozen_state)
 
-    state_hash = hash_state(
-        canonical_state
-    )
+    state_hash = hash_state(canonical_state)
 
-    serialized = serialize(
-        canonical_state
-    )
+    serialized = serialize(canonical_state)
 
-    snapshot = persist_snapshot(
-        serialized,
-        state_hash
-    )
+    snapshot = persist_snapshot(serialized, state_hash)
 
-    verify_snapshot(
-        snapshot
-    )
+    verify_snapshot(snapshot)
 
     return snapshot
 ```

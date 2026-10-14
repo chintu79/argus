@@ -791,13 +791,9 @@ Internal Python interface:
 
 ```python
 class TestSelector(Protocol):
-
     def select(
-        self,
-        candidates: list[Candidate],
-        context: SelectionContext
-    ) -> SelectionDecision:
-        ...
+        self, candidates: list[Candidate], context: SelectionContext
+    ) -> SelectionDecision: ...
 ```
 
 ### Selection Context
@@ -847,29 +843,19 @@ The agent adapter isolates the evaluation framework from the specific LLM or age
 
 ```python
 class AgentAdapter(Protocol):
-
     def initialize(
-        self,
-        config: AgentConfig,
-        environment: EnvironmentInterface
-    ) -> None:
-        ...
+        self, config: AgentConfig, environment: EnvironmentInterface
+    ) -> None: ...
 
-    def reset(self) -> None:
-        ...
+    def reset(self) -> None: ...
 
     def execute(
-        self,
-        task: AgentTask,
-        context: AgentContext
-    ) -> AgentExecutionResult:
-        ...
+        self, task: AgentTask, context: AgentContext
+    ) -> AgentExecutionResult: ...
 
-    def get_capabilities(self) -> CapabilitySet:
-        ...
+    def get_capabilities(self) -> CapabilitySet: ...
 
-    def get_metadata(self) -> AgentMetadata:
-        ...
+    def get_metadata(self) -> AgentMetadata: ...
 ```
 
 ---
@@ -923,36 +909,19 @@ It records observable agent behavior such as:
 
 ```python
 class EnvironmentInterface(Protocol):
+    def initialize(self, config: EnvironmentConfig) -> None: ...
 
-    def initialize(
-        self,
-        config: EnvironmentConfig
-    ) -> None:
-        ...
+    def reset(self) -> None: ...
 
-    def reset(self) -> None:
-        ...
+    def get_state(self) -> EnvironmentState: ...
 
-    def get_state(self) -> EnvironmentState:
-        ...
+    def apply_action(self, action: EnvironmentAction) -> EnvironmentObservation: ...
 
-    def apply_action(
-        self,
-        action: EnvironmentAction
-    ) -> EnvironmentObservation:
-        ...
+    def snapshot(self) -> Snapshot: ...
 
-    def snapshot(self) -> Snapshot:
-        ...
+    def restore(self, snapshot_id: str) -> None: ...
 
-    def restore(
-        self,
-        snapshot_id: str
-    ) -> None:
-        ...
-
-    def health_check(self) -> HealthStatus:
-        ...
+    def health_check(self) -> HealthStatus: ...
 ```
 
 ---
@@ -1596,13 +1565,9 @@ Example:
 
 ```python
 class ReproductionManager(Protocol):
-
     def reproduce(
-        self,
-        failure: ValidatedFailure,
-        config: ReproductionConfig
-    ) -> ReproductionResult:
-        ...
+        self, failure: ValidatedFailure, config: ReproductionConfig
+    ) -> ReproductionResult: ...
 ```
 
 The original failure must remain immutable.
@@ -1891,32 +1856,13 @@ Budget enforcement must happen **before** an expensive operation begins.
 
 ```python
 class CostTracker(Protocol):
+    def estimate(self, operation: Operation) -> CostEstimate: ...
 
-    def estimate(
-        self,
-        operation: Operation
-    ) -> CostEstimate:
-        ...
+    def reserve(self, run_id: str, estimate: CostEstimate) -> Reservation: ...
 
-    def reserve(
-        self,
-        run_id: str,
-        estimate: CostEstimate
-    ) -> Reservation:
-        ...
+    def commit(self, reservation_id: str, actual_cost: Cost) -> None: ...
 
-    def commit(
-        self,
-        reservation_id: str,
-        actual_cost: Cost
-    ) -> None:
-        ...
-
-    def release(
-        self,
-        reservation_id: str
-    ) -> None:
-        ...
+    def release(self, reservation_id: str) -> None: ...
 ```
 
 The total cost model remains:
@@ -2047,19 +1993,9 @@ Internal modules should communicate through Python interfaces.
 
 ```python
 class ScenarioGenerator(Protocol):
+    def generate(self, config: ScenarioGenerationConfig) -> list[Scenario]: ...
 
-    def generate(
-        self,
-        config: ScenarioGenerationConfig
-    ) -> list[Scenario]:
-        ...
-
-    def mutate(
-        self,
-        scenario: Scenario,
-        mutation: Mutation
-    ) -> Scenario:
-        ...
+    def mutate(self, scenario: Scenario, mutation: Mutation) -> Scenario: ...
 ```
 
 ---
@@ -2068,13 +2004,9 @@ class ScenarioGenerator(Protocol):
 
 ```python
 class ExecutionEngine(Protocol):
-
     def execute(
-        self,
-        candidate: Candidate,
-        context: ExecutionContext
-    ) -> ExecutionResult:
-        ...
+        self, candidate: Candidate, context: ExecutionContext
+    ) -> ExecutionResult: ...
 ```
 
 ---
@@ -2083,25 +2015,11 @@ class ExecutionEngine(Protocol):
 
 ```python
 class TrajectoryCollector(Protocol):
+    def start(self, execution_id: str) -> Trajectory: ...
 
-    def start(
-        self,
-        execution_id: str
-    ) -> Trajectory:
-        ...
+    def append(self, trajectory_id: str, event: TrajectoryEvent) -> None: ...
 
-    def append(
-        self,
-        trajectory_id: str,
-        event: TrajectoryEvent
-    ) -> None:
-        ...
-
-    def finalize(
-        self,
-        trajectory_id: str
-    ) -> Trajectory:
-        ...
+    def finalize(self, trajectory_id: str) -> Trajectory: ...
 ```
 
 ---
@@ -2110,25 +2028,11 @@ class TrajectoryCollector(Protocol):
 
 ```python
 class SnapshotManager(Protocol):
+    def create(self, execution_id: str, state: EnvironmentState) -> Snapshot: ...
 
-    def create(
-        self,
-        execution_id: str,
-        state: EnvironmentState
-    ) -> Snapshot:
-        ...
+    def restore(self, snapshot_id: str) -> RestoredState: ...
 
-    def restore(
-        self,
-        snapshot_id: str
-    ) -> RestoredState:
-        ...
-
-    def verify(
-        self,
-        snapshot_id: str
-    ) -> bool:
-        ...
+    def verify(self, snapshot_id: str) -> bool: ...
 ```
 
 ---
@@ -2137,19 +2041,11 @@ class SnapshotManager(Protocol):
 
 ```python
 class BranchManager(Protocol):
-
     def create_branch(
-        self,
-        snapshot: Snapshot,
-        perturbation: Perturbation
-    ) -> Branch:
-        ...
+        self, snapshot: Snapshot, perturbation: Perturbation
+    ) -> Branch: ...
 
-    def execute_branch(
-        self,
-        branch_id: str
-    ) -> ExecutionResult:
-        ...
+    def execute_branch(self, branch_id: str) -> ExecutionResult: ...
 ```
 
 ---
@@ -2158,13 +2054,9 @@ class BranchManager(Protocol):
 
 ```python
 class InvariantEngine(Protocol):
-
     def evaluate(
-        self,
-        execution: ExecutionResult,
-        invariants: list[Invariant]
-    ) -> list[InvariantEvaluation]:
-        ...
+        self, execution: ExecutionResult, invariants: list[Invariant]
+    ) -> list[InvariantEvaluation]: ...
 ```
 
 ---
@@ -2173,13 +2065,9 @@ class InvariantEngine(Protocol):
 
 ```python
 class FailureDetector(Protocol):
-
     def detect(
-        self,
-        execution: ExecutionResult,
-        evaluations: list[InvariantEvaluation]
-    ) -> list[FailureCandidate]:
-        ...
+        self, execution: ExecutionResult, evaluations: list[InvariantEvaluation]
+    ) -> list[FailureCandidate]: ...
 ```
 
 ---
@@ -2188,12 +2076,7 @@ class FailureDetector(Protocol):
 
 ```python
 class FailureClassifier(Protocol):
-
-    def classify(
-        self,
-        failure: ValidatedFailure
-    ) -> FailureClassification:
-        ...
+    def classify(self, failure: ValidatedFailure) -> FailureClassification: ...
 ```
 
 ---
@@ -2202,13 +2085,9 @@ class FailureClassifier(Protocol):
 
 ```python
 class FailureClusterer(Protocol):
-
     def cluster(
-        self,
-        failures: list[ValidatedFailure],
-        config: ClusteringConfig
-    ) -> ClusteringResult:
-        ...
+        self, failures: list[ValidatedFailure], config: ClusteringConfig
+    ) -> ClusteringResult: ...
 ```
 
 ---
@@ -2217,13 +2096,9 @@ class FailureClusterer(Protocol):
 
 ```python
 class ReproductionManager(Protocol):
-
     def reproduce(
-        self,
-        failure: ValidatedFailure,
-        config: ReproductionConfig
-    ) -> ReproductionResult:
-        ...
+        self, failure: ValidatedFailure, config: ReproductionConfig
+    ) -> ReproductionResult: ...
 ```
 
 ---
@@ -2232,27 +2107,17 @@ class ReproductionManager(Protocol):
 
 ```python
 class MetamorphicEngine(Protocol):
-
     def transform(
-        self,
-        scenario: Scenario,
-        transformation: Transformation
-    ) -> TransformedScenario:
-        ...
+        self, scenario: Scenario, transformation: Transformation
+    ) -> TransformedScenario: ...
 
     def execute_pair(
-        self,
-        base: Scenario,
-        transformed: TransformedScenario
-    ) -> MetamorphicExecutionPair:
-        ...
+        self, base: Scenario, transformed: TransformedScenario
+    ) -> MetamorphicExecutionPair: ...
 
     def evaluate_relation(
-        self,
-        pair: MetamorphicExecutionPair,
-        relation: MetamorphicRelation
-    ) -> MetamorphicResult:
-        ...
+        self, pair: MetamorphicExecutionPair, relation: MetamorphicRelation
+    ) -> MetamorphicResult: ...
 ```
 
 ---
@@ -2263,48 +2128,29 @@ Persistence must also use explicit interfaces.
 
 ```python
 class ScenarioRepository(Protocol):
+    def create(self, scenario: Scenario) -> Scenario: ...
 
-    def create(self, scenario: Scenario) -> Scenario:
-        ...
+    def get(self, scenario_id: str) -> Scenario: ...
 
-    def get(self, scenario_id: str) -> Scenario:
-        ...
-
-    def list(self, filters: ScenarioFilters) -> list[Scenario]:
-        ...
+    def list(self, filters: ScenarioFilters) -> list[Scenario]: ...
 ```
 
 ```python
 class ExecutionRepository(Protocol):
+    def create(self, execution: Execution) -> Execution: ...
 
-    def create(self, execution: Execution) -> Execution:
-        ...
+    def get(self, execution_id: str) -> Execution: ...
 
-    def get(self, execution_id: str) -> Execution:
-        ...
-
-    def update_status(
-        self,
-        execution_id: str,
-        status: str
-    ) -> None:
-        ...
+    def update_status(self, execution_id: str, status: str) -> None: ...
 ```
 
 ```python
 class FailureRepository(Protocol):
+    def create(self, failure: Failure) -> Failure: ...
 
-    def create(self, failure: Failure) -> Failure:
-        ...
+    def get(self, failure_id: str) -> Failure: ...
 
-    def get(self, failure_id: str) -> Failure:
-        ...
-
-    def list_by_run(
-        self,
-        run_id: str
-    ) -> list[Failure]:
-        ...
+    def list_by_run(self, run_id: str) -> list[Failure]: ...
 ```
 
 Repositories must not contain research logic.

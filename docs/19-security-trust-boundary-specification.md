@@ -427,8 +427,7 @@ class TestSelector(Protocol):
         self,
         candidates: list[Candidate],
         context: SelectionContext,
-    ) -> SelectionDecision:
-        ...
+    ) -> SelectionDecision: ...
 ```
 
 This allows:
@@ -2612,13 +2611,11 @@ Example:
 
 ```python
 class ExecutionService:
-
     def execute_candidate(
         self,
         candidate: Candidate,
         run_context: RunContext,
-    ) -> ExecutionResult:
-        ...
+    ) -> ExecutionResult: ...
 ```
 
 The service layer should coordinate interfaces rather than implement every domain algorithm itself.
@@ -2885,45 +2882,25 @@ The final implementation should execute experiments approximately as follows:
 ```python
 experiment = experiment_service.create(config)
 
-candidate_pool = scenario_service.build_pool(
-    experiment.scenario_pool
-)
+candidate_pool = scenario_service.build_pool(experiment.scenario_pool)
 
 candidate_pool.freeze()
 
 for run in experiment.runs:
-
-    selector = selector_factory.create(
-        run.method,
-        run.selector_config
-    )
+    selector = selector_factory.create(run.method, run.selector_config)
 
     while budget.has_capacity():
-
         candidates = pool.available()
 
-        decision = selector.select(
-            candidates,
-            context
-        )
+        decision = selector.select(candidates, context)
 
-        execution = execution_service.execute(
-            decision.candidate_id
-        )
+        execution = execution_service.execute(decision.candidate_id)
 
-        evaluations = invariant_engine.evaluate(
-            execution
-        )
+        evaluations = invariant_engine.evaluate(execution)
 
-        failures = failure_detector.detect(
-            execution,
-            evaluations
-        )
+        failures = failure_detector.detect(execution, evaluations)
 
-        update_selector_statistics(
-            decision,
-            failures
-        )
+        update_selector_statistics(decision, failures)
 
     freeze_failures(run)
 

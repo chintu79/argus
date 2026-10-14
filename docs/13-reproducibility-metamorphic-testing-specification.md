@@ -1434,39 +1434,19 @@ relation:
 ```python id="uxl9eo"
 def run_metamorphic_test(base_scenario, transformation, relation):
 
-    validate_transformation(
-        base_scenario,
-        transformation
-    )
+    validate_transformation(base_scenario, transformation)
 
-    base_result = execute(
-        base_scenario
-    )
+    base_result = execute(base_scenario)
 
-    transformed_scenario = transform(
-        base_scenario,
-        transformation
-    )
+    transformed_scenario = transform(base_scenario, transformation)
 
-    validate_transformed_scenario(
-        transformed_scenario
-    )
+    validate_transformed_scenario(transformed_scenario)
 
-    transformed_result = execute(
-        transformed_scenario
-    )
+    transformed_result = execute(transformed_scenario)
 
-    relation_result = evaluate_relation(
-        base_result,
-        transformed_result,
-        relation
-    )
+    relation_result = evaluate_relation(base_result, transformed_result, relation)
 
-    return finalize_metamorphic_result(
-        base_result,
-        transformed_result,
-        relation_result
-    )
+    return finalize_metamorphic_result(base_result, transformed_result, relation_result)
 ```
 
 ---
@@ -1477,27 +1457,11 @@ Conceptual interface:
 
 ```python id="d0e8c7"
 class MetamorphicRelationEngine:
+    def validate_transformation(self, base, transformed): ...
 
-    def validate_transformation(
-        self,
-        base,
-        transformed
-    ):
-        ...
+    def compare(self, base_result, transformed_result, relation): ...
 
-    def compare(
-        self,
-        base_result,
-        transformed_result,
-        relation
-    ):
-        ...
-
-    def explain(
-        self,
-        comparison
-    ):
-        ...
+    def explain(self, comparison): ...
 ```
 
 ---
@@ -1508,15 +1472,11 @@ All transformations should be registered.
 
 ```python id="b4grjr"
 class TransformationRegistry:
+    def register(self, transformation): ...
 
-    def register(self, transformation):
-        ...
+    def get(self, transformation_id): ...
 
-    def get(self, transformation_id):
-        ...
-
-    def validate(self, transformation):
-        ...
+    def validate(self, transformation): ...
 ```
 
 ---
@@ -1525,15 +1485,11 @@ class TransformationRegistry:
 
 ```python id="3wm8fh"
 class RelationRegistry:
+    def register(self, relation): ...
 
-    def register(self, relation):
-        ...
+    def get(self, relation_id): ...
 
-    def get(self, relation_id):
-        ...
-
-    def evaluate(self, relation, base, transformed):
-        ...
+    def evaluate(self, relation, base, transformed): ...
 ```
 
 ---
@@ -1542,21 +1498,15 @@ class RelationRegistry:
 
 ```python id="u7z0f7"
 class ReproductionManager:
+    def create_attempt(self, failure): ...
 
-    def create_attempt(self, failure):
-        ...
+    def execute(self, attempt): ...
 
-    def execute(self, attempt):
-        ...
+    def compare(self, original, reproduction): ...
 
-    def compare(self, original, reproduction):
-        ...
+    def classify(self, comparison): ...
 
-    def classify(self, comparison):
-        ...
-
-    def summarize(self, failure):
-        ...
+    def summarize(self, failure): ...
 ```
 
 ---
@@ -2614,38 +2564,15 @@ tests/
 
 ```python id="x8eq9q"
 class ReproductionEngine:
+    def create_attempt(self, failure, mode): ...
 
-    def create_attempt(
-        self,
-        failure,
-        mode
-    ):
-        ...
+    def execute_attempt(self, attempt): ...
 
-    def execute_attempt(
-        self,
-        attempt
-    ):
-        ...
+    def compare(self, original, reproduction): ...
 
-    def compare(
-        self,
-        original,
-        reproduction
-    ):
-        ...
+    def classify_result(self, comparison): ...
 
-    def classify_result(
-        self,
-        comparison
-    ):
-        ...
-
-    def summarize(
-        self,
-        failure
-    ):
-        ...
+    def summarize(self, failure): ...
 ```
 
 ---
@@ -2654,41 +2581,15 @@ class ReproductionEngine:
 
 ```python id="4v5t8n"
 class MetamorphicEngine:
+    def validate_transformation(self, scenario, transformation): ...
 
-    def validate_transformation(
-        self,
-        scenario,
-        transformation
-    ):
-        ...
+    def transform(self, scenario, transformation): ...
 
-    def transform(
-        self,
-        scenario,
-        transformation
-    ):
-        ...
+    def execute_pair(self, base, transformed): ...
 
-    def execute_pair(
-        self,
-        base,
-        transformed
-    ):
-        ...
+    def evaluate_relation(self, base_result, transformed_result, relation): ...
 
-    def evaluate_relation(
-        self,
-        base_result,
-        transformed_result,
-        relation
-    ):
-        ...
-
-    def summarize(
-        self,
-        tests
-    ):
-        ...
+    def summarize(self, tests): ...
 ```
 
 ---
@@ -2697,34 +2598,13 @@ class MetamorphicEngine:
 
 ```python id="j7x3fk"
 class ReproductionComparator:
+    def compare_invariants(self, original, reproduction): ...
 
-    def compare_invariants(
-        self,
-        original,
-        reproduction
-    ):
-        ...
+    def compare_signatures(self, original, reproduction): ...
 
-    def compare_signatures(
-        self,
-        original,
-        reproduction
-    ):
-        ...
+    def compare_states(self, original, reproduction): ...
 
-    def compare_states(
-        self,
-        original,
-        reproduction
-    ):
-        ...
-
-    def compare_sequences(
-        self,
-        original,
-        reproduction
-    ):
-        ...
+    def compare_sequences(self, original, reproduction): ...
 ```
 
 ---
@@ -2733,30 +2613,11 @@ class ReproductionComparator:
 
 ```python id="y9v2w7"
 class MetamorphicComparator:
+    def compare_property(self, base, transformed, property_definition): ...
 
-    def compare_property(
-        self,
-        base,
-        transformed,
-        property_definition
-    ):
-        ...
+    def compare_state(self, base_state, transformed_state, expected_differences): ...
 
-    def compare_state(
-        self,
-        base_state,
-        transformed_state,
-        expected_differences
-    ):
-        ...
-
-    def evaluate(
-        self,
-        relation,
-        base,
-        transformed
-    ):
-        ...
+    def evaluate(self, relation, base, transformed): ...
 ```
 
 ---

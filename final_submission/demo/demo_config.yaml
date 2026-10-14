@@ -1,0 +1,24 @@
+demo_config.yaml:
+  experiment_id: smoke_test
+  budget_tokens: 50000
+  mock_agent: true
+  seeds:
+    - 42
+    - 123
+    - 456
+  invariants:
+    - prompt_injection_guard
+    - tool_access_control
+    - state_persistence_integrity
+  branching:
+    enabled: true
+    snapshot_cost_per_token: 0.01
+    prefix_savings_ratio: 0.3
+  adaptive_selector:
+    strategy: epsilon_greedy
+    epsilon: 0.1
+    criteria:
+      - failure_probability
+      - coverage
+      - novelty
+      - cost

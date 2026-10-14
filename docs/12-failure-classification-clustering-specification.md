@@ -2543,51 +2543,39 @@ tests/
 
 ```python
 class FailureValidator:
-
-    def validate(self, invariant_result, trace):
-        ...
+    def validate(self, invariant_result, trace): ...
 ```
 
 ## Failure Classifier
 
 ```python
 class FailureClassifier:
-
-    def classify(self, failure):
-        ...
+    def classify(self, failure): ...
 ```
 
 ## Signature Generator
 
 ```python
 class FailureSignatureGenerator:
-
-    def generate(self, failure, trace):
-        ...
+    def generate(self, failure, trace): ...
 ```
 
 ## Similarity Engine
 
 ```python
 class FailureSimilarity:
-
-    def compare(self, failure_a, failure_b):
-        ...
+    def compare(self, failure_a, failure_b): ...
 ```
 
 ## Clusterer
 
 ```python
 class FailureClusterer:
+    def assign(self, failure, families): ...
 
-    def assign(self, failure, families):
-        ...
+    def fit(self, failures): ...
 
-    def fit(self, failures):
-        ...
-
-    def validate(self, families):
-        ...
+    def validate(self, families): ...
 ```
 
 ---
@@ -2600,10 +2588,7 @@ def validate_failure(invariant_result, trace):
     if invariant_result.result != "FAIL":
         return None
 
-    evidence = collect_evidence(
-        invariant_result,
-        trace
-    )
+    evidence = collect_evidence(invariant_result, trace)
 
     if not evidence.is_valid():
         return InvalidFailure()
@@ -2611,10 +2596,7 @@ def validate_failure(invariant_result, trace):
     if execution_has_evaluator_error(trace):
         return EvaluatorFailure()
 
-    return ValidatedFailure(
-        invariant=invariant_result,
-        evidence=evidence
-    )
+    return ValidatedFailure(invariant=invariant_result, evidence=evidence)
 ```
 
 ---
@@ -2627,18 +2609,13 @@ def classify_failure(failure):
     matches = []
 
     for rule in classification_rules:
-
         if rule.matches(failure):
             matches.append(rule)
 
     if not matches:
-        return Classification(
-            status="INCONCLUSIVE"
-        )
+        return Classification(status="INCONCLUSIVE")
 
-    return resolve_classification(
-        matches
-    )
+    return resolve_classification(matches)
 ```
 
 ---
@@ -2670,47 +2647,27 @@ Mechanism inference here must be based on observable structured evidence, not hi
 # 126. Assignment Pseudocode
 
 ```python
-def assign_failure_to_family(
-    failure,
-    families,
-    threshold
-):
+def assign_failure_to_family(failure, families, threshold):
 
     candidates = []
 
     for family in families:
-
-        score = similarity(
-            failure.signature,
-            family.signature
-        )
+        score = similarity(failure.signature, family.signature)
 
         if score >= threshold:
-            candidates.append(
-                (family, score)
-            )
+            candidates.append((family, score))
 
     if not candidates:
         return create_new_family(failure)
 
-    candidates.sort(
-        key=lambda x: x[1],
-        reverse=True
-    )
+    candidates.sort(key=lambda x: x[1], reverse=True)
 
     best_family, best_score = candidates[0]
 
     if is_ambiguous(candidates):
-        return mark_for_review(
-            failure,
-            candidates
-        )
+        return mark_for_review(failure, candidates)
 
-    return assign(
-        failure,
-        best_family,
-        best_score
-    )
+    return assign(failure, best_family, best_score)
 ```
 
 ---
@@ -3149,24 +3106,17 @@ Recommended interface:
 
 ```python
 class FailureAnalysisEngine:
+    def validate(self, invariant_result, trace): ...
 
-    def validate(self, invariant_result, trace):
-        ...
+    def classify(self, failure): ...
 
-    def classify(self, failure):
-        ...
+    def generate_signature(self, failure, trace): ...
 
-    def generate_signature(self, failure, trace):
-        ...
+    def cluster(self, failures): ...
 
-    def cluster(self, failures):
-        ...
+    def validate_families(self, families): ...
 
-    def validate_families(self, families):
-        ...
-
-    def export_results(self):
-        ...
+    def export_results(self): ...
 ```
 
 ---

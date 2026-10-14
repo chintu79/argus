@@ -1,0 +1,25 @@
+experiment_id: "smoke_test"
+name: "Smoke Test"
+methods:
+  - STATIC
+  - RANDOM
+  - UNBRANCHED_ADAPTIVE
+  - STATE_BRANCHED_ADAPTIVE
+budget:
+  total_tokens: 50000
+repetitions:
+  seeds:
+    - 42
+tasks:
+  split: SEARCH
+  limit: 3
+agent:
+  temperature: 0.0
+evaluation:
+  reproducibility_runs: 3
+  minimum_rep_k: 0.75
+checkpoint:
+  enabled: true
+  every_n_actions: 10
+dry_run: false
+output_dir: "artifacts/experiments"

@@ -1,0 +1,75 @@
+# Manifests for BCADE-AI Reproducibility
+
+## Experiment Manifest
+
+```json
+{
+  "experiment_id": "smoke_test",
+  "config": "configs/experiments/smoke.yaml",
+  "budget_tokens": 50000,
+  "phases": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
+  "seeds": [42, 123, 456],
+  "mock_agent": true,
+  "invariants": ["prompt_injection_guard", "tool_access_control", "state_persistence_integrity"],
+  "created_at": "<timestamp>",
+  "status": "complete"
+}
+```
+
+## Analysis Manifest
+
+```json
+{
+  "experiment_id": "smoke_test",
+  "hypothesis_results": "analysis/hypothesis_results.csv",
+  "effect_sizes": "hypothesis_tests/effect_sizes.csv",
+  "aggregate_metrics": "artifacts/experiments/smoke_test/aggregate_metrics.csv",
+  "validated_failures": "analysis/validated_failures.csv",
+  "failure_families": "analysis/failure_families.csv",
+  "created_at": "<timestamp>",
+  "status": "complete"
+}
+```
+
+## Visualization Manifest
+
+```json
+{
+  "experiment_id": "smoke_test",
+  "figures": [
+    "figures/FIG-01-discovery_curves.png",
+    "figures/FIG-02-failure_families.png",
+    "figures/FIG-03-aufdc.png",
+    "figures/FIG-04-efficiency_metrics.png",
+    "figures/FIG-05-reproducibility.png",
+    "figures/FIG-06-metamorphic.png",
+    "figures/FIG-07-holdout.png",
+    "figures/FIG-08-branching.png",
+    "figures/FIG-09-taxonomy.png",
+    "figures/FIG-10-effect_sizes.png",
+    "figures/FIG-11-sensitivity.png",
+    "figures/FIG-12-holdout_metrics.png"
+  ],
+  "figure_index": "figures/figure_index.csv",
+  "created_at": "<timestamp>",
+  "status": "complete"
+}
+```
+
+## Audit Manifest
+
+```json
+{
+  "experiment_id": "smoke_test",
+  "budget_reconciliation": "audit/budget_reconciliation.json",
+  "selector_leakage": "audit/selector_leakage_results.json",
+  "statistical_audit": "audit/statistical_audit.json",
+  "fairness_audit": "audit/fairness_audit.json",
+  "integrity_audit": "audit/integrity_audit.json",
+  "reproducibility_audit": "audit/reproducibility_audit.json",
+  "claims_audit": "audit/claims_audit.json",
+  "release_decision": "audit/release_decision.json",
+  "created_at": "<timestamp>",
+  "status": "complete"
+}
+```

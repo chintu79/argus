@@ -1433,18 +1433,13 @@ Each detector evaluates registered invariants.
 
 ```python
 class InvariantRegistry:
+    def register(self, invariant): ...
 
-    def register(self, invariant):
-        ...
+    def get(self, invariant_id, version): ...
 
-    def get(self, invariant_id, version):
-        ...
+    def list_active(self): ...
 
-    def list_active(self):
-        ...
-
-    def validate(self, invariant):
-        ...
+    def validate(self, invariant): ...
 ```
 
 ---
@@ -1453,13 +1448,7 @@ class InvariantRegistry:
 
 ```python
 class InvariantEvaluator:
-
-    def evaluate(
-        self,
-        invariant,
-        execution_context
-    ):
-        ...
+    def evaluate(self, invariant, execution_context): ...
 ```
 
 The result must be structured.
@@ -2172,52 +2161,27 @@ def evaluate_execution(execution, invariants):
     results = []
 
     for invariant in invariants:
-
         if not applies(invariant, execution):
-            results.append(
-                not_applicable(invariant)
-            )
+            results.append(not_applicable(invariant))
             continue
 
-        if not preconditions_met(
-            invariant,
-            execution
-        ):
-            results.append(
-                not_applicable(invariant)
-            )
+        if not preconditions_met(invariant, execution):
+            results.append(not_applicable(invariant))
             continue
 
-        evidence = collect_evidence(
-            invariant,
-            execution
-        )
+        evidence = collect_evidence(invariant, execution)
 
         if not evidence.complete():
-            results.append(
-                inconclusive(
-                    invariant,
-                    evidence
-                )
-            )
+            results.append(inconclusive(invariant, evidence))
             continue
 
         try:
-            result = evaluate_predicate(
-                invariant,
-                execution,
-                evidence
-            )
+            result = evaluate_predicate(invariant, execution, evidence)
 
             results.append(result)
 
         except Exception as error:
-            results.append(
-                evaluator_error(
-                    invariant,
-                    error
-                )
-            )
+            results.append(evaluator_error(invariant, error))
 
     return results
 ```
@@ -2227,25 +2191,18 @@ def evaluate_execution(execution, invariants):
 # 104. Failure Candidate Pseudocode
 
 ```python
-def create_failure_candidates(
-    invariant_results
-):
+def create_failure_candidates(invariant_results):
 
     candidates = []
 
     for result in invariant_results:
-
         if result.result != "FAIL":
             continue
 
         if not evidence_is_valid(result):
             continue
 
-        candidates.append(
-            FailureCandidate.from_result(
-                result
-            )
-        )
+        candidates.append(FailureCandidate.from_result(result))
 
     return candidates
 ```
@@ -2257,29 +2214,19 @@ def create_failure_candidates(
 ```python
 def validate_failure(candidate):
 
-    if not scenario_is_valid(
-        candidate
-    ):
+    if not scenario_is_valid(candidate):
         return REJECTED
 
-    if not trace_is_valid(
-        candidate
-    ):
+    if not trace_is_valid(candidate):
         return REJECTED
 
-    if evaluator_integrity_failed(
-        candidate
-    ):
+    if evaluator_integrity_failed(candidate):
         return EVALUATOR_FAILURE
 
-    if environment_integrity_failed(
-        candidate
-    ):
+    if environment_integrity_failed(candidate):
         return ENVIRONMENT_FAILURE
 
-    if not evidence_is_sufficient(
-        candidate
-    ):
+    if not evidence_is_sufficient(candidate):
         return INCONCLUSIVE
 
     return VALIDATED

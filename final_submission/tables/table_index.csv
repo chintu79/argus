@@ -1,0 +1,11 @@
+table_id,title,description,source_artifact,analysis_version
+TBL-01,Experimental Conditions,Run configuration parameters including budget, agent, and seed,configs/experiments/smoke.yaml,v1.0
+TBL-02,Run-Level Metrics,Per-run metrics including VFF count, cost, and trajectory length,artifacts/experiments/smoke_test/run_metrics.csv,v1.0
+TBL-03,Aggregate Metrics,Summary statistics across all runs including means, standard deviations, and confidence intervals,artifacts/experiments/smoke_test/aggregate_metrics.csv,v1.0
+TBL-04,Hypothesis Results,Phase 14 hypothesis test results including p-values, effect sizes, and evidence status,analysis/hypothesis_results.csv,v1.0
+TBL-05,Effect Sizes,Hedge's g and Cohen's d for all pairwise comparisons,hypothesis_tests/effect_sizes.csv,v1.0
+TBL-06,Holdout Results,Hidden-holdout transfer success rate and metrics,artifacts/holdout_metrics.csv,v1.0
+TBL-07,Branching Results,PTR, BTCR, RTR across branching configurations,branching_metrics.csv,v1.0
+TBL-08,Sensitivity Results,Sensitivity analysis across perturbation dimensions,sensitivity_results.csv,v1.0
+TBL-09,Exclusions,Excluded runs and reasons for exclusion,analysis/exclusions.csv,v1.0
+TBL-10,Release Audit Findings,Budget reconciliation, selector leakage, and statistical audit outcomes,audit/release_audit_findings.json,v1.0

@@ -1,0 +1,5 @@
+contribution_id,research_problem,mechanism,implementation_component,experimental_measure,supporting_evidence,limitation,novelty_status
+C1,Budget-constrained adaptive evaluation,Adaptive candidate selection based on failure probability,selector module,Validated failures per budget unit,Phase 14 hypothesis results,Budget threshold may not capture all accounting edge cases,IMPLEMENTED_ONLY
+C2,State-based execution branching,State snapshot and restore with cost accounting,branching module,Prefix-token savings comparison,Phase 15 branching visualizations (PTR, BTCR, RTR),Snapshot/restore operations themselves cost resources,IMPLEMENTED_ONLY
+C3,Failure validation and family analysis,Candidate → invariant → reproduction → family pipeline,failure classification module,Failure family assignments with evidence,Phase 17 audit ground truth tests,Classification depends on invariant coverage,NOT_ESTABLISHED_OUTSIDE_PROJECT
+C4,Generalization and evidence validation,Reproducibility testing, metamorphic testing, hidden holdout,Rep_k, FRR, MCR, MVR, TSR metrics,Phase 15-17 visualizations and audits,Small seed count limits generality,SUPPORTED_BY_LITERATURE_GAP

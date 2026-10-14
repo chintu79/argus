@@ -984,9 +984,7 @@ Conceptual algorithm:
 def select_next_candidate(candidates, budget, policy):
 
     feasible = [
-        c for c in candidates
-        if c.estimated_cost <= budget.remaining
-        and c.is_valid
+        c for c in candidates if c.estimated_cost <= budget.remaining and c.is_valid
     ]
 
     if not feasible:
@@ -997,10 +995,7 @@ def select_next_candidate(candidates, budget, policy):
     for candidate in feasible:
         scores[candidate.id] = policy.score(candidate)
 
-    selected = max(
-        feasible,
-        key=lambda c: scores[c.id]
-    )
+    selected = max(feasible, key=lambda c: scores[c.id])
 
     return selected
 ```
@@ -1021,14 +1016,9 @@ def ucb_v(candidate, round_index, reward_bound=1.0):
     variance = candidate.reward_variance
     count = candidate.count
 
-    exploration = sqrt(
-        (2 * variance * log(round_index))
-        / count
-    )
+    exploration = sqrt((2 * variance * log(round_index)) / count)
 
-    correction = (
-        3 * reward_bound * log(round_index)
-    ) / count
+    correction = (3 * reward_bound * log(round_index)) / count
 
     return mean + exploration + correction
 ```
@@ -2338,24 +2328,17 @@ Conceptual interface:
 
 ```python
 class AdaptiveSelector:
+    def initialize(self, candidates, config): ...
 
-    def initialize(self, candidates, config):
-        ...
+    def score(self, candidate, context): ...
 
-    def score(self, candidate, context):
-        ...
+    def select(self, candidates, budget): ...
 
-    def select(self, candidates, budget):
-        ...
+    def update(self, candidate, observation): ...
 
-    def update(self, candidate, observation):
-        ...
+    def get_statistics(self): ...
 
-    def get_statistics(self):
-        ...
-
-    def get_policy_metadata(self):
-        ...
+    def get_policy_metadata(self): ...
 ```
 
 ---
@@ -2366,18 +2349,13 @@ The policy should be separately implemented:
 
 ```python
 class SelectionPolicy:
+    def initialize(self, candidates): ...
 
-    def initialize(self, candidates):
-        ...
+    def score(self, candidate, context): ...
 
-    def score(self, candidate, context):
-        ...
+    def update(self, candidate, reward): ...
 
-    def update(self, candidate, reward):
-        ...
-
-    def reset(self):
-        ...
+    def reset(self): ...
 ```
 
 This allows Random, Uniform, UCB-V, and composite policies to share the same interface.
@@ -2388,9 +2366,7 @@ This allows Random, Uniform, UCB-V, and composite policies to share the same int
 
 ```python
 class RandomSelectionPolicy(SelectionPolicy):
-
-    def select(self, candidates):
-        ...
+    def select(self, candidates): ...
 ```
 
 The policy must use an explicit random generator.
@@ -2401,9 +2377,7 @@ The policy must use an explicit random generator.
 
 ```python
 class UniformSelectionPolicy(SelectionPolicy):
-
-    def select(self, candidates):
-        ...
+    def select(self, candidates): ...
 ```
 
 Selection order shall be deterministic given the candidate ordering.
@@ -2414,12 +2388,9 @@ Selection order shall be deterministic given the candidate ordering.
 
 ```python
 class UCBVSelectionPolicy(SelectionPolicy):
+    def score(self, candidate, round_index): ...
 
-    def score(self, candidate, round_index):
-        ...
-
-    def update(self, candidate, reward):
-        ...
+    def update(self, candidate, reward): ...
 ```
 
 The implementation must maintain empirical variance.
@@ -2430,12 +2401,9 @@ The implementation must maintain empirical variance.
 
 ```python
 class CostAwareSelectionPolicy(SelectionPolicy):
+    def score(self, candidate, context): ...
 
-    def score(self, candidate, context):
-        ...
-
-    def estimate_cost(self, candidate):
-        ...
+    def estimate_cost(self, candidate): ...
 ```
 
 ---

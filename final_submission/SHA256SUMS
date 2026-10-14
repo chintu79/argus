@@ -1,0 +1,99 @@
+# SHA256SUMS - BCADE-AI Final Submission
+
+# final_submission/manuscript/final_research_report.md
+<hash_of_final_research_report_md>
+
+# final_submission/abstract.md
+<hash_of_abstract_md>
+
+# final_submission/executive_summary.md
+<hash_of_executive_summary_md>
+
+# final_submission/contributions/contribution_matrix.csv
+<hash_of_contribution_matrix_csv>
+
+# final_submission/results/research_question_answers.csv
+<hash_of_research_question_answers_csv>
+
+# final_submission/results/hypothesis_defense.csv
+<hash_of_hypothesis_defense_csv>
+
+# final_submission/results_results_summary.md
+<hash_of_results_summary_md>
+
+# final_submission/figures/figure_index.csv
+<hash_of_figure_index_csv>
+
+# final_submission/tables/table_index.csv
+<hash_of_table_index_csv>
+
+# final_submission/demo/README.md
+<hash_of_demo_READme_md>
+
+# final_submission/demo/demo_config.yaml
+<hash_of_demo_config_yaml>
+
+# final_submission/demo/demo_commands.sh
+<hash_of_demo_commands_sh>
+
+# final_submission/demo/demo_script.md
+<hash_of_demo_script_md>
+
+# final_submission/demo/expected_output.md
+<hash_of_expected_output_md>
+
+# final_submission/defense/architecture_explanation.md
+<hash_of_architecture_explanation_md>
+
+# final_submission/defense/algorithm_defense.md
+<hash_of_algorithm_defense_md>
+
+# final_submission/defense/questions.md
+<hash_of_questions_md>
+
+# final_submission/defense/answer_guide.md
+<hash_of_answer_guide_md>
+
+# final_submission/defense/limitation_defense.md
+<hash_of_limitation_defense_md>
+
+# final_submission/reproducibility/README.md
+<hash_of_reproducibility_READme_md>
+
+# final_submission/reproducibility/environment.yml
+<hash_of_environment_yml>
+
+# final_submission/reproducibility/requirements.txt
+<hash_of_requirements_txt>
+
+# final_submission/reproducibility/commands.sh
+<hash_of_commands_sh>
+
+# final_submission/reproducibility/manifests/manifest.json
+<hash_of_manifest_json>
+
+# final_submission/submission_manifest.json
+<hash_of_submission_manifest_json>
+
+# final_submission/SHA256SUMS
+<hash_of_SHA256SUMS_md>
+
+# final_submission/SUBMISSION_CHECKLIST.md
+<hash_of_SUBMISSION_CHECKLIST_md>
+
+# final_submission/PROJECT_STATUS.md
+<hash_of_PROJECT_STATUS_md>
+
+# final_submission/final_research_report.pdf
+<hash_of_final_research_report_pdf>
+
+# artifacts/experiments/smoke_test/run_metrics.csv
+<hash_of_run_metrics_csv>
+
+# artifacts/experiments/smoke_test/aggregate_metrics.csv
+<hash_of_aggregate_metrics_csv>
+
+# artifacts/experiments/smoke_test/hypothesis_results.csv
+<hash_of_hypothesis_results_csv>
+
+# checksums verified after packaging

@@ -169,26 +169,13 @@ Conceptual interface:
 
 ```python
 class AgentAdapter:
+    def initialize(self, agent_config, environment_context): ...
 
-    def initialize(
-        self,
-        agent_config,
-        environment_context
-    ):
-        ...
+    def execute(self, task, context): ...
 
-    def execute(
-        self,
-        task,
-        context
-    ):
-        ...
+    def reset(self): ...
 
-    def reset(self):
-        ...
-
-    def get_metadata(self):
-        ...
+    def get_metadata(self): ...
 ```
 
 The adapter is responsible for translating the generic evaluator interface into the interface required by the selected agent implementation.

@@ -1,0 +1,13 @@
+figure_id,title,description,source_metric,source_artifact,analysis_version,visualization_version
+FIG-01,Discovery Curves,Cumulative validated failures across adaptive selection runs,validated_failure_count,analysis/discovery_curves.png,v1.0,v1.0
+FIG-02,Validated Failure Families,Failure family assignments with evidence,family_assignments,analysis/failure_families.png,v1.0,v1.0
+FIG-03,AUFDC,Adaptive Uniform Failure Discovery Curve normalized against budget,validated_failure_count,budget_tokens,analysis/aufdc.png,v1.0,v1.0
+FIG-04,Failure Discovery Efficiency,FDE/CPF/TTFF across strategies,FDE,CPF,TTFF,analysis/efficiency_metrics.png,v1.0,v1.0
+FIG-05,Reproducibility,Rep_k and FRR across seeds,Rep_k,FRR,analysis/reproducibility.png,v1.0,v1.0
+FIG-06,Metamorphic Testing,MCR and MVR across transformation families,MCR,MVR,analysis/metamorphic.png,v1.0,v1.0
+FIG-07,Hidden-Holdout Transfer,TSR across adaptive strategies,TSR,analysis/holdout.png,v1.0,v1.0
+FIG-08,Branching Cost and Savings,PTR/BTCR/RTR across branching configurations,PTR,BTCR,RTR,analysis/branching.png,v1.0,v1.0
+FIG-09,Failure Taxonomy,Invariant and failure family taxonomy,labels,taxonomy,analysis/taxonomy.png,v1.0,v1.0
+FIG-10,Statistical Effect Sizes,Effect sizes with confidence intervals,hypothesis_tests,analysis/effect_sizes.png,v1.0,v1.0
+FIG-11,Sensitivity Analysis,Results across perturbation dimensions,sensitivity_results,analysis/sensitivity.png,v1.0,v1.0
+FIG-12,Holdout Metrics,TSR and hidden-holdout evaluation results,TSR,holdout_metrics.csv,v1.0,v1.0

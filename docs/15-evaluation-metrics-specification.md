@@ -3196,24 +3196,15 @@ branching cost
 
 ```python
 def test_cost_per_family():
-    assert cost_per_family(
-        total_cost=100,
-        families=5
-    ) == 20
+    assert cost_per_family(total_cost=100, families=5) == 20
 
 
 def test_zero_family_count():
-    assert cost_per_family(
-        total_cost=100,
-        families=0
-    ) is None
+    assert cost_per_family(total_cost=100, families=0) is None
 
 
 def test_reproduction_rate():
-    assert reproduction_rate(
-        reproduced=8,
-        valid_attempts=10
-    ) == 0.8
+    assert reproduction_rate(reproduced=8, valid_attempts=10) == 0.8
 ```
 
 ---
